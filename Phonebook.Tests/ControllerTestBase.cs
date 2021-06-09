@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Phonebook.DAL.Models.DTO;
 
-namespace SalesTaxes.Tests
+namespace Phonebook.Tests
 {
     public class ControllerTestBase
     {

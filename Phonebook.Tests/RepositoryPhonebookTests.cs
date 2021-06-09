@@ -5,7 +5,7 @@ using System.Linq;
 using Phonebook.DAL.Extensions;
 using Phonebook.DAL.Models;
 
-namespace SalesTaxes.Tests
+namespace Phonebook.Tests
 {
     public class RepositoryPhonebookTests : IClassFixture<RepositoryTestBase>
     {

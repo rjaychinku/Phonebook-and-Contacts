@@ -8,7 +8,7 @@ using System.IO;
 using Phonebook.DAL.DataContext;
 using Phonebook.DAL.Models;
 
-namespace SalesTaxes.Tests
+namespace Phonebook.Tests
 {
     public class RepositoryTestBase : IDisposable
     {

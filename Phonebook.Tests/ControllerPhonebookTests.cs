@@ -8,7 +8,7 @@ using Phonebook.DAL.Models.DTO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SalesTaxes.Tests
+namespace Phonebook.Tests
 {
     public class ControllerPhonebookTests : IClassFixture<ControllerTestBase>
     {
