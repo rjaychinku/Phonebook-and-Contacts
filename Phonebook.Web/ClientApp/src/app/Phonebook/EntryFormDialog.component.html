@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Add Contact</h1>
+<div mat-dialog-content>
+  <form [formGroup]="phonebookService.entryFormModel">
+    <mat-form-field>
+      <input matInput placeholder="Full Name" [(ngModel)]="contactData.name" formControlName="Name" required maxlength="100">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Number" [(ngModel)]="contactData.number" formControlName="Number" type="text" maxlength="10" appOnlynumber required>
+      <mat-error *ngIf="phonebookService.entryFormModel.get('Number').hasError('isValidMobileNumber')">
+        {{"Number should be 10 digits long"}}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button [disabled]="!phonebookService.entryFormModel.valid || DisableAddBtn" mat-raised-button (click)="onAddClick(contactData)" color="primary">Add</button>
+</div>

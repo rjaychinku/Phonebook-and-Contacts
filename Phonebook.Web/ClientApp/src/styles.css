@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.green-snackbar {
+  background: #3a660e !important;
+  color: white !important;
+  height: 80px;
+}
+
+  .green-snackbar button {
+    background-color: white !important;
+    color: black;
+    border: none;
+  }
+
+.red-snackbar {
+  background-color: red !important;
+  color: white !important;
+  height: 80px;
+}
+
+  .red-snackbar button {
+    background-color: white !important;
+    color: black !important;
+    border: none;
+  }

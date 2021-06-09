@@ -1,0 +1,29 @@
+
+#myDataTable {
+  width: 400px;
+  border-color: black;
+  border-style: solid;
+  border-width: thin
+}
+
+#tiles {
+  height: 40px;
+  width: 40px;
+  margin-left: 155px;
+  background-color: white;
+  border-color: purple;
+  border-width: thin;
+  border-style: solid;
+  color: black;
+}
+
+  #tiles:hover {
+    background-color: green;
+    color: white;
+    transform: scale(1.1);
+  }
+
+.example-container {
+  height: 400px;
+  overflow: auto;
+}
