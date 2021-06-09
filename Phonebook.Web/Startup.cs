@@ -31,7 +31,7 @@ namespace Phonebook.Web
             });
 
             services.AddAutoMapper(typeof(Startup));
-            services.AddDatabase(Configuration);
+            services.AddDatabase();
             services.AddApplicationServices();
         }
 

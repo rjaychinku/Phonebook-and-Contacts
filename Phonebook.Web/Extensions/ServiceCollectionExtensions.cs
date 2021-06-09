@@ -15,7 +15,7 @@ namespace Phonebook.Web.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabase(this IServiceCollection services)
         {
             return services.AddDbContext<PhonebookApiContext>(options => options
                     .UseSqlite(CreateDatabase()));
