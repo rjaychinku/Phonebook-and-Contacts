@@ -16,10 +16,10 @@ namespace Phonebook.Web.Controllers
     [ApiController]
     public class PhonebookController : ControllerBase
     {
-        private readonly IPhonebookService _covidService;
-        public PhonebookController(IPhonebookService covidService)
+        private readonly IPhonebookService iPhonebookService;
+        public PhonebookController(IPhonebookService iPhoneService)
         {
-            _covidService = covidService;
+            iPhonebookService = iPhoneService;
         }
 
         //Post: /Phonebook/AddEntry
@@ -29,7 +29,7 @@ namespace Phonebook.Web.Controllers
         {
             try
             {
-                return Ok(await _covidService.Save(contactInfo));
+                return Ok(await iPhonebookService.Save(contactInfo));
             }
             catch (Exception ex)
             {
@@ -45,7 +45,7 @@ namespace Phonebook.Web.Controllers
         {
             try
             {
-                return await _covidService.GetEntriesAsync(phonebookId);
+                return await iPhonebookService.GetEntriesAsync(phonebookId);
             }
             catch (Exception ex)
             {

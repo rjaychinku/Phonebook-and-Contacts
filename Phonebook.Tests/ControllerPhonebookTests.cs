@@ -14,11 +14,11 @@ namespace Phonebook.Tests
     {
         private readonly ControllerTestBase fixture;
         private PhonebookController phonebookController;
-        private Mock<IPhonebookService> iCovidServiceMoq;
+        private Mock<IPhonebookService> iPhonebookServiceMoq;
         public ControllerPhonebookTests(ControllerTestBase testFixture)
         {
             fixture = testFixture;
-            iCovidServiceMoq = new Mock<IPhonebookService>();
+            iPhonebookServiceMoq = new Mock<IPhonebookService>();
         }
 
         [Fact]
@@ -28,11 +28,11 @@ namespace Phonebook.Tests
             int phonebookId = fixture.phonebookId; //using a fixed phonebook
             List<ContactInfoDTO> contactInfoDTOs = fixture.contactInfoDTOList;
 
-            iCovidServiceMoq.Setup(x => x.GetEntriesAsync(It.IsAny<int>()))
+            iPhonebookServiceMoq.Setup(x => x.GetEntriesAsync(It.IsAny<int>()))
                                     .ReturnsAsync(new List<ContactInfoDTO>(contactInfoDTOs));
 
             //Act
-            phonebookController = new PhonebookController(iCovidServiceMoq.Object);
+            phonebookController = new PhonebookController(iPhonebookServiceMoq.Object);
             IEnumerable<ContactInfoDTO> result = await phonebookController.GetEntries(phonebookId);
 
             //Assert
@@ -46,11 +46,11 @@ namespace Phonebook.Tests
             //Arrange
             ContactInfoDTO contactInfoDTO = fixture.contactInfoDTOToAdd;
 
-            iCovidServiceMoq.Setup(x => x.Save(It.IsAny<ContactInfoDTO>()))
+            iPhonebookServiceMoq.Setup(x => x.Save(It.IsAny<ContactInfoDTO>()))
                                     .ReturnsAsync(true);
 
             //Act
-            phonebookController = new PhonebookController(iCovidServiceMoq.Object);
+            phonebookController = new PhonebookController(iPhonebookServiceMoq.Object);
             ActionResult<bool> result = await phonebookController.AddEntry(contactInfoDTO);
             var okObjectResult = (OkObjectResult)result.Result;
             var finalResult = okObjectResult.Value; 
