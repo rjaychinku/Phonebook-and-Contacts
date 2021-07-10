@@ -28,5 +28,18 @@ namespace Phonebook.DAL.Extensions
             List<models.Phonebook> phonebooks = await _dbcontext.Phonebooks.ToListAsync();
             return phonebooks.Find(c => c.PhonebookId == phonebookId).Entries;
         }
+
+        public async Task<bool> Add(models.Phonebook phonebook)
+        {
+            _dbcontext.Phonebooks.Add(phonebook);
+            await _dbcontext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<models.Phonebook>> GetAsync()
+        {
+            List<models.Phonebook> phonebooks = await _dbcontext.Phonebooks.ToListAsync();
+            return phonebooks;
+        }
     }
 }

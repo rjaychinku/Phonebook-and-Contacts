@@ -8,5 +8,7 @@ namespace Phonebook.BLL
     {
         Task<bool> Save(ContactInfoDTO entry);
         Task<IEnumerable<ContactInfoDTO>> GetEntriesAsync(int phonebookId);
+        Task<IEnumerable<PhonebookDTO>> GetAsync();
+        Task<bool> Add(PhonebookDTO phonebook);
     }
 }

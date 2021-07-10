@@ -5,22 +5,24 @@
   <div class="row">
     <div class="col-md-4" style="background-color: lightcyan">
       <h3>Add Phonebook</h3>
-      <button id="tilesLeft" (click)="openPhonebookDialog()" mat-raised-button color="accent">+</button>
+      <form [formGroup]="phonebookService.phonebookFormModel">
+        <mat-form-field>
+          <input matInput placeholder="Name" formControlName="Name" type="text" required>
+        </mat-form-field>
+      </form>
+      <button id="tilesLeft" mat-raised-button color="accent">Add</button>
     </div>
 
     <div class="col-md-8" style="background-color:lightgoldenrodyellow">
-      <!--<h3>Select Phonebook</h3>-->
-      <form [formGroup]="phonebookService.phonebookFormModel">
-        <mat-form-field>
-          <mat-label>Phonebooks</mat-label>
-          <mat-select formControlName="Name" (selectionChange)="setPhonebook($event)" required>
-            <mat-option>-select phonebook-</mat-option>
-            <mat-option *ngFor="let phonebook of Phonebooks" [value]="phonebook.id">
-              {{phonebook.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </form>
+      <mat-form-field>
+        <mat-label>Phonebooks</mat-label>
+        <mat-select (selectionChange)="setPhonebook($event)" required>
+          <mat-option>-select phonebook-</mat-option>
+          <mat-option *ngFor="let phonebook of Phonebooks" [value]="phonebook.id">
+            {{phonebook.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <mat-form-field [disabled]="Phonebooks.length === 6">
         <input matInput type="text" (keyup)="searchEntries($event.target.value)" placeholder="Search">
@@ -44,5 +46,6 @@
         </mat-table>
       </div>
     </div>
+
   </div>
 </div>

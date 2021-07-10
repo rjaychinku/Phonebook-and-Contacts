@@ -22,6 +22,38 @@ namespace Phonebook.Web.Controllers
             iPhonebookService = iPhoneService;
         }
 
+        //Post: /Phonebook/Add
+        [HttpPost()]
+        [Route(nameof(Add))]
+        public async Task<ActionResult<bool>> Add([FromBody] PhonebookDTO phonebook)
+        {
+            try
+            {
+                return Ok(await iPhonebookService.Add(phonebook));
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Submitted data: " + JsonSerializer.Serialize(phonebook));
+                return BadRequest(false);
+            }
+        }
+
+        // GET: /Phonebook/Get
+        [HttpGet]
+        [Route(nameof(Get))]
+        public async Task<IEnumerable<PhonebookDTO>> Get()
+        {
+            try
+            {
+                return await iPhonebookService.GetAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "The application failed to Get()");
+                return (IEnumerable<PhonebookDTO>)BadRequest(ex);
+            }
+        }
+
         //Post: /Phonebook/AddEntry
         [HttpPost()]
         [Route(nameof(AddEntry))]

@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { ContactData } from '../Interfaces/VAInterfaces';
+import { ContactData, Phonebook } from '../Interfaces/VAInterfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +41,16 @@ export class PhonebookService {
     return await this.saveForm(this.entryFormModel.value);
   }
 
+  async submitPhonebook() {
+    return await this.savePhonebook(this.phonebookFormModel.value);
+  }
+
+  async savePhonebook(formData: {}) {
+    return await this.http.post(this.baseUrl + 'Phonebook/Add', formData, {
+      headers: new HttpHeaders({ "Content-Type": "application/json" })
+    }).toPromise();
+  }
+
   async saveForm(formData: {}) {
     return await this.http.post(this.baseUrl + 'Phonebook/AddEntry', formData, {
       headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -51,5 +61,9 @@ export class PhonebookService {
     return await this.http.get<ContactData[]>(this.baseUrl + 'Phonebook/GetEntries', {
       params: new HttpParams().set('phonebookId', phonebookId.toString())
     }).toPromise();
+  }
+
+  async getPhonebooks() {
+    return await this.http.get<Phonebook[]>(this.baseUrl + 'Phonebook/Get').toPromise();
   }
 }

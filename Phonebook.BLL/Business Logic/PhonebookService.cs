@@ -2,8 +2,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Phonebook.DAL.Interfaces;
 using Phonebook.DAL.Models.DTO;
-using Phonebook.DAL.Models;
+using model = Phonebook.DAL.Models;
 using System.Collections.Generic;
+using Phonebook.DAL.Models;
 
 namespace Phonebook.BLL
 {
@@ -15,6 +16,18 @@ namespace Phonebook.BLL
         {
             _dbService = dbService;
             _mapper = mapper;
+        }
+
+        public async Task<bool> Add(PhonebookDTO phonebook)
+        {
+            model.Phonebook entry = _mapper.Map<model.Phonebook>(source: phonebook);
+            return await _dbService.Add(entry);
+        }
+
+        public async Task<IEnumerable<PhonebookDTO>> GetAsync()
+        {
+            IEnumerable<model.Phonebook> phonebooks = await _dbService.GetAsync();
+            return _mapper.Map<IEnumerable<PhonebookDTO>>(source: phonebooks);
         }
 
         public async Task<IEnumerable<ContactInfoDTO>> GetEntriesAsync(int phonebookId)
