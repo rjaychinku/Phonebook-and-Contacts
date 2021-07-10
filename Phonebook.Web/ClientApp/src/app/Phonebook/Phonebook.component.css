@@ -1,15 +1,17 @@
 
 #myDataTable {
-  width: 400px;
+  width: 100%;
   border-color: black;
   border-style: solid;
   border-width: thin
 }
 
-#tiles {
+#tilesRight {
   height: 40px;
   width: 40px;
-  margin-left: 155px;
+  float: right;
+  margin-top: 10px;
+  /*margin-left: 100%;*/
   background-color: white;
   border-color: purple;
   border-width: thin;
@@ -17,11 +19,22 @@
   color: black;
 }
 
-  #tiles:hover {
-    background-color: green;
-    color: white;
-    transform: scale(1.1);
-  }
+#tilesLeft {
+  height: 40px;
+  width: 40px;
+  margin-bottom: 10px;
+  background-color: white;
+  border-color: purple;
+  border-width: thin;
+  border-style: solid;
+  color: black;
+}
+
+#tilesRight:hover, #tilesLeft:hover {
+  background-color: green;
+  color: white;
+  transform: scale(1.1);
+}
 
 .example-container {
   height: 400px;

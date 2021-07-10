@@ -14,7 +14,7 @@ namespace Phonebook.Tests
     {
         private readonly ControllerTestBase fixture;
         private PhonebookController phonebookController;
-        private Mock<IPhonebookService> iPhonebookServiceMoq;
+        private readonly Mock<IPhonebookService> iPhonebookServiceMoq;
         public ControllerPhonebookTests(ControllerTestBase testFixture)
         {
             fixture = testFixture;
@@ -52,8 +52,8 @@ namespace Phonebook.Tests
             //Act
             phonebookController = new PhonebookController(iPhonebookServiceMoq.Object);
             ActionResult<bool> result = await phonebookController.AddEntry(contactInfoDTO);
-            var okObjectResult = (OkObjectResult)result.Result;
-            var finalResult = okObjectResult.Value; 
+            OkObjectResult okObjectResult = (OkObjectResult)result.Result;
+            object finalResult = okObjectResult.Value;
 
             //Assert
             Assert.True(finalResult is bool);

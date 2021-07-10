@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition,  MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { NotificationType, ContactData } from '../Interfaces/VAInterfaces';
+import { NotificationType, ContactData, Phonebook } from '../Interfaces/VAInterfaces';
 import { PhonebookService } from '../shared/Phonebook.service'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -18,6 +18,14 @@ export class PhonebookComponent implements OnInit {
   phonebookId: number = 1; //using a fixed one to mock an actual device?
   tableColumns: string[] = ['contactName', 'contactNumber'];
   entries = new MatTableDataSource<ContactData>();
+  Phonebooks: Phonebook[] = [
+    { id: 1, name: "Ronalds clientelle" },
+    { id: 2, name: "Changu's list" },
+    { id: 3, name: "Chisanga's phonebook" },
+    { id: 4, name: "Kunda's clientelle" },
+    { id: 5, name: "Kaoma's clientelle" },
+    { id: 6, name: "Make's clientelle" }
+  ];
 
   constructor(public dialog: MatDialog, public phonebookService: PhonebookService) { }
 
@@ -29,6 +37,7 @@ export class PhonebookComponent implements OnInit {
 
   async getAllEntries() {
     try {
+      let rr = this.Phonebooks.length === 6;
       this.entries.data = await this.phonebookService.getEntries(this.phonebookId);
     } catch (err) {
       console.error(err);
@@ -39,7 +48,7 @@ export class PhonebookComponent implements OnInit {
     this.entries.filter = value.trim().toLocaleLowerCase();
   }
 
-  openDialog(): void {
+  openContactDialog(): void {
     const dialogRef = this.dialog.open(EntryFormDialogComponent, {
       width: '250px',
       data: this.contactInfo
@@ -56,6 +65,27 @@ export class PhonebookComponent implements OnInit {
       this.phonebookService.entryFormModel.reset();
     });
   }
+
+  openPhonebookDialog(): void {
+    const dialogRef = this.dialog.open(EntryFormDialogComponent, {
+      width: '250px',
+      data: this.contactInfo
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result != null && result != undefined) {
+        this.entries.data.push(result);
+        this.entries = new MatTableDataSource(this.entries.data);
+      }
+
+      this.phonebookService.phonebookFormModel.reset();
+    });
+  }
+
+  setPhonebook(event: any) {
+  }
+
 }
 
 @Component({

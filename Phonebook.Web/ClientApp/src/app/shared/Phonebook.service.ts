@@ -18,6 +18,10 @@ export class PhonebookService {
     Number: ['', [Validators.required, this.isValidMobileNumber]]
   });
 
+  phonebookFormModel = this.formbuilder.group({
+    Name: ['', Validators.required],
+  });
+
   isValidMobileNumber(mobileNUmber: AbstractControl) {
 
     let isInvalid = { 'isValidMobileNumber': true };
