@@ -10,35 +10,34 @@ namespace Phonebook.DAL.Extensions
 {
     public class DatabaseService : IDatabaseService
     {
-        private readonly PhonebookApiContext _dbcontext;
-        public DatabaseService(PhonebookApiContext dbcontext)
+        private readonly PhonebookApiContext _dbContext;
+        public DatabaseService(PhonebookApiContext dbContext)
         {
-            _dbcontext = dbcontext;
-            _dbcontext.Database.EnsureCreated();
+            _dbContext = dbContext;
+            _dbContext.Database.EnsureCreated();
         }
-        public async Task<bool> Save(Entry entry)
+        public async Task<bool> AddContactAsync(Contact contact)
         {
-            _dbcontext.Entries.Add(entry);
-            await _dbcontext.SaveChangesAsync();
+            _dbContext.Entries.Add(contact);
+            await _dbContext.SaveChangesAsync();
             return true;
         }
-        public async Task<IEnumerable<Entry>> GetEntriesAsync(int phonebookId)
+        public async Task<IEnumerable<Contact>> GetContactsAsync(int phonebookId)
         {
-            var test = await _dbcontext.Entries.ToListAsync();
-            List<models.Phonebook> phonebooks = await _dbcontext.Phonebooks.ToListAsync();
+            var test = await _dbContext.Entries.ToListAsync();
+            List<models.Phonebook> phonebooks = await _dbContext.Phonebooks.ToListAsync();
             return phonebooks.Find(c => c.PhonebookId == phonebookId).Entries;
         }
 
-        public async Task<bool> AddPhonebook(models.Phonebook phonebook)
+        public async Task<bool> AddPhonebookAsync(models.Phonebook phonebook)
         {
-            _dbcontext.Phonebooks.Add(phonebook);
-            await _dbcontext.SaveChangesAsync();
+            _dbContext.Phonebooks.Add(phonebook);
+            await _dbContext.SaveChangesAsync();
             return true;
         }
         public async Task<IEnumerable<models.Phonebook>> GetPhonebooksAsync()
         {
-            List<models.Phonebook> phonebooks = await _dbcontext.Phonebooks.ToListAsync();
-            return phonebooks;
+            return await _dbContext.Phonebooks.ToListAsync();
         }
     }
 }

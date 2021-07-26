@@ -6,7 +6,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<ContactInfoDTO, models.Entry>().ReverseMap();
+        CreateMap<ContactInfoDTO, models.Contact>().ReverseMap();
         CreateMap<PhonebookDTO, models.Phonebook>().ReverseMap();
     }
 }

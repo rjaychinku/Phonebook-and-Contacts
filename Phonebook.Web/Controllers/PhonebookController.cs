@@ -22,14 +22,14 @@ namespace Phonebook.Web.Controllers
             iPhonebookService = iPhoneService;
         }
 
-        //Post: /Phonebook/Add
+        //Post: /Phonebook/AddPhonebook
         [HttpPost]
-        [Route(nameof(Add))]
-        public async Task<ActionResult<bool>> Add([FromBody] PhonebookDTO phonebook)
+        [Route(nameof(AddPhonebook))]
+        public async Task<ActionResult<bool>> AddPhonebook([FromBody] PhonebookDTO phonebook)
         {
             try
             {
-                return Ok(await iPhonebookService.Add(phonebook));
+                return Ok(await iPhonebookService.AddPhonebookAsync(phonebook));
             }
             catch (Exception ex)
             {
@@ -38,14 +38,14 @@ namespace Phonebook.Web.Controllers
             }
         }
 
-        // GET: /Phonebook/Get
+        // GET: /Phonebook/GetPhonebooks
         [HttpGet]
-        [Route(nameof(Get))]
-        public async Task<IEnumerable<PhonebookDTO>> Get()
+        [Route(nameof(GetPhonebooks))]
+        public async Task<IEnumerable<PhonebookDTO>> GetPhonebooks()
         {
             try
             {
-                return await iPhonebookService.GetAsync();
+                return await iPhonebookService.GetPhonebookAsync();
             }
             catch (Exception ex)
             {
@@ -54,14 +54,14 @@ namespace Phonebook.Web.Controllers
             }
         }
 
-        //Post: /Phonebook/AddEntry
+        //Post: /Phonebook/AddContact
         [HttpPost]
-        [Route(nameof(AddEntry))]
-        public async Task<ActionResult<bool>> AddEntry([FromBody] ContactInfoDTO contactInfo)
+        [Route(nameof(AddContact))]
+        public async Task<ActionResult<bool>> AddContact([FromBody] ContactInfoDTO contactInfo)
         {
             try
             {
-                return Ok(await iPhonebookService.Save(contactInfo));
+                return Ok(await iPhonebookService.AddContactAsync(contactInfo));
             }
             catch (Exception ex)
             {
@@ -72,12 +72,12 @@ namespace Phonebook.Web.Controllers
 
         // GET: /Phonebook/GetEntries
         [HttpGet]
-        [Route(nameof(GetEntries))]
-        public async Task<IEnumerable<ContactInfoDTO>> GetEntries(int phonebookId)
+        [Route(nameof(GetContacts))]
+        public async Task<IEnumerable<ContactInfoDTO>> GetContacts(int phonebookId)
         {
             try
             {
-                return await iPhonebookService.GetEntriesAsync(phonebookId);
+                return await iPhonebookService.GetContactsAsync(phonebookId);
             }
             catch (Exception ex)
             {

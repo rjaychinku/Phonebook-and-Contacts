@@ -9,7 +9,7 @@ namespace Phonebook.DAL.DataContext
             : base(options)
         {
         }
-        public DbSet<models.Entry> Entries { get; set; }
+        public DbSet<models.Contact> Entries { get; set; }
         public DbSet<models.Phonebook> Phonebooks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

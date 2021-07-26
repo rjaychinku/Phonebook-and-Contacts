@@ -7,9 +7,9 @@ namespace Phonebook.DAL.Interfaces
 {
     public interface IDatabaseService
     {
-        Task<bool> Save(Entry entry);
-        Task<bool> AddPhonebook(model.Phonebook phonebook);
-        Task<IEnumerable<Entry>> GetEntriesAsync(int phonebookId);
+        Task<bool> AddContactAsync(Contact entry);
+        Task<bool> AddPhonebookAsync(model.Phonebook phonebook);
+        Task<IEnumerable<Contact>> GetContactsAsync(int phonebookId);
         Task<IEnumerable<model.Phonebook>> GetPhonebooksAsync();
     }
 }

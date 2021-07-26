@@ -23,7 +23,7 @@ namespace Phonebook.Tests
 
             //Act
             DatabaseService databaseService = new DatabaseService(fixture.DBContext);
-            IEnumerable<Entry> entriesResult = await databaseService.GetEntriesAsync(phonebookId);
+            IEnumerable<Contact> entriesResult = await databaseService.GetContactsAsync(phonebookId);
 
             //Asset
             Assert.True(entriesResult.Count() > 0);
@@ -33,11 +33,11 @@ namespace Phonebook.Tests
         public async Task For_AddEntry_Given_Valid_ContactInfo_Must_Return_True_Async()
         {
             //Arrange
-            Entry entry = fixture.entryToAdd;
+            Contact entry = fixture.entryToAdd;
 
             //Act
             DatabaseService databaseService = new DatabaseService(fixture.DBContext);
-            bool entriesResult = await databaseService.Save(entry);
+            bool entriesResult = await databaseService.AddContactAsync(entry);
 
             //Asset
             Assert.True(entriesResult);

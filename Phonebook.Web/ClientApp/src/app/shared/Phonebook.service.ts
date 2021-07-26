@@ -43,24 +43,24 @@ export class PhonebookService {
   }
 
   async savePhonebook(formData: {}) {
-    return await this.http.post(this.baseUrl + 'Phonebook/Add', formData, {
+    return await this.http.post(this.baseUrl + 'Phonebook/AddPhonebook', formData, {
       headers: new HttpHeaders({ "Content-Type": "application/json" })
     }).toPromise();
   }
 
   async saveForm(contactData: ContactData) {
-    return await this.http.post(this.baseUrl + 'Phonebook/AddEntry', contactData, {
+    return await this.http.post(this.baseUrl + 'Phonebook/AddContact', contactData, {
       headers: new HttpHeaders({ "Content-Type": "application/json" })
     }).toPromise();
   }
 
   async getEntries(phonebookId: number) {
-    return await this.http.get<ContactData[]>(this.baseUrl + 'Phonebook/GetEntries', {
+    return await this.http.get<ContactData[]>(this.baseUrl + 'Phonebook/GetContacts', {
       params: new HttpParams().set('phonebookId', phonebookId.toString())
     }).toPromise();
   }
 
   async getPhonebooks() {
-    return await this.http.get<Phonebook[]>(this.baseUrl + 'Phonebook/Get').toPromise();
+    return await this.http.get<Phonebook[]>(this.baseUrl + 'Phonebook/GetPhonebooks').toPromise();
   }
 }

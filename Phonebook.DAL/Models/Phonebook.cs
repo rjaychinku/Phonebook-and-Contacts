@@ -8,6 +8,6 @@ namespace Phonebook.DAL.Models
         [Key]
         public int PhonebookId { get; set; }
         public string Name { get; set; }
-        public List<Entry> Entries { get; set; }
+        public List<Contact> Entries { get; set; }
     }
 }

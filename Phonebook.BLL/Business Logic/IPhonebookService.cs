@@ -6,9 +6,9 @@ namespace Phonebook.BLL
 {
     public interface IPhonebookService
     {
-        Task<bool> Save(ContactInfoDTO entry);
-        Task<IEnumerable<ContactInfoDTO>> GetEntriesAsync(int phonebookId);
-        Task<IEnumerable<PhonebookDTO>> GetAsync();
-        Task<bool> Add(PhonebookDTO phonebook);
+        Task<bool> AddContactAsync(ContactInfoDTO entry);
+        Task<IEnumerable<ContactInfoDTO>> GetContactsAsync(int phonebookId);
+        Task<IEnumerable<PhonebookDTO>> GetPhonebookAsync();
+        Task<bool> AddPhonebookAsync(PhonebookDTO phonebook);
     }
 }

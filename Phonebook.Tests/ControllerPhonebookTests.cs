@@ -28,12 +28,12 @@ namespace Phonebook.Tests
             int phonebookId = fixture.phonebookId; //using a fixed phonebook
             List<ContactInfoDTO> contactInfoDTOs = fixture.contactInfoDTOList;
 
-            iPhonebookServiceMoq.Setup(x => x.GetEntriesAsync(It.IsAny<int>()))
+            iPhonebookServiceMoq.Setup(x => x.GetContactsAsync(It.IsAny<int>()))
                                     .ReturnsAsync(new List<ContactInfoDTO>(contactInfoDTOs));
 
             //Act
             phonebookController = new PhonebookController(iPhonebookServiceMoq.Object);
-            IEnumerable<ContactInfoDTO> result = await phonebookController.GetEntries(phonebookId);
+            IEnumerable<ContactInfoDTO> result = await phonebookController.GetContacts(phonebookId);
 
             //Assert
             Assert.Equal(contactInfoDTOs, result);
@@ -46,12 +46,12 @@ namespace Phonebook.Tests
             //Arrange
             ContactInfoDTO contactInfoDTO = fixture.contactInfoDTOToAdd;
 
-            iPhonebookServiceMoq.Setup(x => x.Save(It.IsAny<ContactInfoDTO>()))
+            iPhonebookServiceMoq.Setup(x => x.AddContactAsync(It.IsAny<ContactInfoDTO>()))
                                     .ReturnsAsync(true);
 
             //Act
             phonebookController = new PhonebookController(iPhonebookServiceMoq.Object);
-            ActionResult<bool> result = await phonebookController.AddEntry(contactInfoDTO);
+            ActionResult<bool> result = await phonebookController.AddContact(contactInfoDTO);
             OkObjectResult okObjectResult = (OkObjectResult)result.Result;
             object finalResult = okObjectResult.Value;
 

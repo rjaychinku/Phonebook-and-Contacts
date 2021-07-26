@@ -17,8 +17,8 @@ namespace Phonebook.Tests
 
         public int phonebookId = 1;
         public PhonebookApiContext DBContext;
-        public List<Entry> dbEntriesList;
-        public Entry entryToAdd;
+        public List<Contact> dbEntriesList;
+        public Contact entryToAdd;
 
         public RepositoryTestBase()
         {
@@ -35,20 +35,20 @@ namespace Phonebook.Tests
         }
         private void SetDummyData()
         {
-            dbEntriesList = new List<Entry> {
-                                                    new Entry
+            dbEntriesList = new List<Contact> {
+                                                    new Contact
                                                     {
                                                         Name = "David",
                                                         Number = "0810000000",
                                                         PhonebookId = phonebookId
                                                     },
-                                                     new Entry
+                                                     new Contact
                                                     {
                                                         Name = "Goliath",
                                                         Number = "0820000000",
                                                         PhonebookId = phonebookId
                                                     },
-                                                     new Entry
+                                                     new Contact
                                                     {
                                                         Name = "Telemundo",
                                                         Number = "0830000000",
@@ -56,7 +56,7 @@ namespace Phonebook.Tests
                                                     }
                                                 };
 
-            entryToAdd = new Entry
+            entryToAdd = new Contact
             {
                 Name = "Tester",
                 Number = "0710000000",
