@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NotificationType, ContactData, Phonebook } from '../Interfaces/VAInterfaces';
 import { PhonebookService } from '../shared/Phonebook.service'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { CustomnotificationsService } from '../shared/customnotifications.service';
 
 @Component({
   selector: 'app-Phonebook',
@@ -13,21 +12,23 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PhonebookComponent implements OnInit {
 
+  private readonly submitErrorMessage = 'Something went wrong. Please try again.';
+  private readonly submitSuccessMessage = 'Phonebook has been successfully added!';
   DoneLoadingData: boolean = false;
   private contactInfo: ContactData = { name: '', number: null, phonebookId: null };
+  private selectedPhonebookId: number;
   tableColumns: string[] = ['contactName', 'contactNumber'];
   entries = new MatTableDataSource<ContactData>();
   Phonebooks: Phonebook[] = [
     { phonebookId: 1, name: "Ronalds clientelle" },
     { phonebookId: 2, name: "Changu's list" },
     { phonebookId: 3, name: "Chisanga's phonebook" },
-    { phonebookId: 4, name: "Kunda's clientelle" },
-    { phonebookId: 5, name: "Kaoma's clientelle" },
-    { phonebookId: 6, name: "Make's clientelle" }
+    { phonebookId: 4, name: "Kunda's book" },
+    { phonebookId: 5, name: "Kaoma's notebook" },
+    { phonebookId: 6, name: "Make's list of clients" }
   ];
-  private selectedPhonebookId: number;
 
-  constructor(public dialog: MatDialog, public phonebookService: PhonebookService) { }
+  constructor(public dialog: MatDialog, public phonebookService: PhonebookService, private notificationsService: CustomnotificationsService) { }
 
   async ngOnInit(): Promise<void> {
     this.phonebookService.entryFormModel.reset();
@@ -39,7 +40,6 @@ export class PhonebookComponent implements OnInit {
 
   private async getEntries(phonebookId: number) {
     try {
-      //  let rr = this.Phonebooks.length === 6;
       this.entries.data = await this.phonebookService.getEntries(phonebookId);
       return this.entries.data;
     } catch (err) {
@@ -75,7 +75,7 @@ export class PhonebookComponent implements OnInit {
         this.entries = new MatTableDataSource(this.entries.data);
       }
 
-      this.contactInfo = { name: '', number: null, phonebookId: null};
+      this.contactInfo = { name: '', number: null, phonebookId: null };
       this.phonebookService.entryFormModel.reset();
     });
   }
@@ -84,12 +84,13 @@ export class PhonebookComponent implements OnInit {
 
     try {
       await this.phonebookService.savePhonebook(phonebook);
-
       await this.getAllPhonebooks();
+      this.notificationsService.openSnackBar(this.submitSuccessMessage, 'Dismiss', NotificationType.OK);
+      this.phonebookService.phonebookFormModel.reset();
     } catch (err) {
       console.error(err);
+      this.notificationsService.openSnackBar(this.submitErrorMessage, 'Dismiss', NotificationType.Error);
     }
-
   }
 
   async setPhonebook(phonebook: Phonebook) {
@@ -97,7 +98,6 @@ export class PhonebookComponent implements OnInit {
     let entries = await this.getEntries(phonebook.phonebookId);
     this.entries = new MatTableDataSource(entries);
   }
-
 }
 
 @Component({
@@ -105,17 +105,15 @@ export class PhonebookComponent implements OnInit {
   templateUrl: './EntryFormDialog.component.html',
 })
 export class EntryFormDialogComponent {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  NotificationDuration: number = 5000;
-  DisableAddBtn: boolean = false;
 
+  DisableAddBtn: boolean = false;
   private readonly submitErrorMessage = 'Something went wrong. Please try again.';
   private readonly submitSuccessMessage = 'Contact has been successfully added!';
 
   constructor(
     public dialogRef: MatDialogRef<EntryFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public contactData: ContactData, public phonebookService: PhonebookService, private snackBar: MatSnackBar) { }
+    @Inject(MAT_DIALOG_DATA) public contactData: ContactData, public phonebookService: PhonebookService,
+    private notificationsService: CustomnotificationsService) { }
 
   onCancelClick(): void {
     this.dialogRef.close();
@@ -125,36 +123,15 @@ export class EntryFormDialogComponent {
     await this.addEntry(contactData);
   }
 
-  private openSnackBar(message: string, dismissMessage: string, notificationType: number) {
-    let displayTheme = 'green-snackbar';
-
-    if (NotificationType.Error == notificationType) {
-      displayTheme = 'red-snackbar';
-    }
-
-    this.snackBar.open(message, dismissMessage, {
-      duration: this.NotificationDuration,
-      panelClass: [displayTheme],
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-  }
-
   private async addEntry(contactData: ContactData) {
     try {
       this.DisableAddBtn = true;
-      const response = await this.phonebookService.submit(contactData);
+      await this.phonebookService.submit(contactData);
+      this.dialogRef.close(contactData);
+      this.notificationsService.openSnackBar(this.submitSuccessMessage, 'Dismiss', NotificationType.OK);
 
-      if (response == true) {
-        this.dialogRef.close(contactData);
-        this.openSnackBar(this.submitSuccessMessage, 'Dismiss', NotificationType.OK);
-      }
-      else {
-        this.openSnackBar(this.submitErrorMessage, 'Dismiss', NotificationType.Error);
-        this.DisableAddBtn = false;
-      }
     } catch (err) {
-      this.openSnackBar(this.submitErrorMessage, 'Dismiss', NotificationType.Error);
+      this.notificationsService.openSnackBar(this.submitErrorMessage, 'Dismiss', NotificationType.Error);
       this.DisableAddBtn = false;
       console.error(err);
     }
