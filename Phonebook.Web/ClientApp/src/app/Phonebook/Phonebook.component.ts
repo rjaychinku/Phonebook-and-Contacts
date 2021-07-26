@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { MatSnackBar, MatSnackBarHorizontalPosition,  MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NotificationType, ContactData, Phonebook } from '../Interfaces/VAInterfaces';
 import { PhonebookService } from '../shared/Phonebook.service'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -19,26 +19,37 @@ export class PhonebookComponent implements OnInit {
   tableColumns: string[] = ['contactName', 'contactNumber'];
   entries = new MatTableDataSource<ContactData>();
   Phonebooks: Phonebook[] = [
-    { id: 1, name: "Ronalds clientelle" },
-    { id: 2, name: "Changu's list" },
-    { id: 3, name: "Chisanga's phonebook" },
-    { id: 4, name: "Kunda's clientelle" },
-    { id: 5, name: "Kaoma's clientelle" },
-    { id: 6, name: "Make's clientelle" }
+    { phonebookId: 1, name: "Ronalds clientelle" },
+    { phonebookId: 2, name: "Changu's list" },
+    { phonebookId: 3, name: "Chisanga's phonebook" },
+    { phonebookId: 4, name: "Kunda's clientelle" },
+    { phonebookId: 5, name: "Kaoma's clientelle" },
+    { phonebookId: 6, name: "Make's clientelle" }
   ];
 
   constructor(public dialog: MatDialog, public phonebookService: PhonebookService) { }
 
   async ngOnInit(): Promise<void> {
     this.phonebookService.entryFormModel.reset();
-    await this.getAllEntries();
+    this.phonebookService.phonebookFormModel.reset();
+
+    await this.getAllPhonebooks();
     this.DoneLoadingData = true;
   }
 
-  async getAllEntries() {
+  private async getEntries(phonebookId: number) {
     try {
-      let rr = this.Phonebooks.length === 6;
-      this.entries.data = await this.phonebookService.getEntries(this.phonebookId);
+      //  let rr = this.Phonebooks.length === 6;
+      this.entries.data = await this.phonebookService.getEntries(phonebookId);
+      return this.entries.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async getAllPhonebooks() {
+    try {
+      this.Phonebooks = await this.phonebookService.getPhonebooks();
     } catch (err) {
       console.error(err);
     }
@@ -49,6 +60,7 @@ export class PhonebookComponent implements OnInit {
   }
 
   openContactDialog(): void {
+    // link PhonebookId to this.contactInfo
     const dialogRef = this.dialog.open(EntryFormDialogComponent, {
       width: '250px',
       data: this.contactInfo
@@ -83,7 +95,22 @@ export class PhonebookComponent implements OnInit {
     });
   }
 
-  setPhonebook(event: any) {
+  async submitPhonebook(phonebook: Phonebook) {
+
+    try {
+      await this.phonebookService.savePhonebook(phonebook);
+
+      await this.getAllPhonebooks();
+    } catch (err) {
+      console.error(err);
+    }
+
+  }
+
+  async setPhonebook(phonebook: Phonebook) {
+
+    let entries = await this.getEntries(phonebook.phonebookId);
+    this.entries = new MatTableDataSource(entries);
   }
 
 }

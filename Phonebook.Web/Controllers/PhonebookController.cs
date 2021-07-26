@@ -23,7 +23,7 @@ namespace Phonebook.Web.Controllers
         }
 
         //Post: /Phonebook/Add
-        [HttpPost()]
+        [HttpPost]
         [Route(nameof(Add))]
         public async Task<ActionResult<bool>> Add([FromBody] PhonebookDTO phonebook)
         {
@@ -55,7 +55,7 @@ namespace Phonebook.Web.Controllers
         }
 
         //Post: /Phonebook/AddEntry
-        [HttpPost()]
+        [HttpPost]
         [Route(nameof(AddEntry))]
         public async Task<ActionResult<bool>> AddEntry([FromBody] ContactInfoDTO contactInfo)
         {

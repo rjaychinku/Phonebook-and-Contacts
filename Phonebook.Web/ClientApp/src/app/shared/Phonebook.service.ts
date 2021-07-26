@@ -15,7 +15,8 @@ export class PhonebookService {
 
   entryFormModel = this.formbuilder.group({
     Name: ['', Validators.required],
-    Number: ['', [Validators.required, this.isValidMobileNumber]]
+    Number: ['', [Validators.required, this.isValidMobileNumber]],
+    PhonebookId: ['']
   });
 
   phonebookFormModel = this.formbuilder.group({
@@ -39,10 +40,6 @@ export class PhonebookService {
 
   async submit() {
     return await this.saveForm(this.entryFormModel.value);
-  }
-
-  async submitPhonebook() {
-    return await this.savePhonebook(this.phonebookFormModel.value);
   }
 
   async savePhonebook(formData: {}) {

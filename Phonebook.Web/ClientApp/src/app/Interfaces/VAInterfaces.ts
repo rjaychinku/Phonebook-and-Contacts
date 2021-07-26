@@ -5,7 +5,7 @@ export interface ContactData {
 }
 
 export interface Phonebook {
-  id: number;
+  phonebookId: number;
   name: string;
 }
 

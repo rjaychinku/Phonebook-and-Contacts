@@ -1,7 +1,5 @@
 
 <div *ngIf="DoneLoadingData">
-
-
   <div class="row">
     <div class="col-md-4" style="background-color: lightcyan">
       <h3>Add Phonebook</h3>
@@ -10,19 +8,22 @@
           <input matInput placeholder="Name" formControlName="Name" type="text" required>
         </mat-form-field>
       </form>
-      <button id="tilesLeft" mat-raised-button color="accent">Add</button>
+      <button id="tilesLeft" [disabled]="!phonebookService.phonebookFormModel.valid" mat-raised-button color="accent" (click)="submitPhonebook(phonebookService.phonebookFormModel.value)">Add</button>
     </div>
 
+
     <div class="col-md-8" style="background-color:lightgoldenrodyellow">
+      {{Phonebooks | json}}
       <mat-form-field>
         <mat-label>Phonebooks</mat-label>
-        <mat-select (selectionChange)="setPhonebook($event)" required>
+        <mat-select (selectionChange)="setPhonebook($event.value)" required>
           <mat-option>-select phonebook-</mat-option>
-          <mat-option *ngFor="let phonebook of Phonebooks" [value]="phonebook.id">
+          <mat-option *ngFor="let phonebook of Phonebooks" [value]="phonebook">
             {{phonebook.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <br />
 
       <mat-form-field [disabled]="Phonebooks.length === 6">
         <input matInput type="text" (keyup)="searchEntries($event.target.value)" placeholder="Search">

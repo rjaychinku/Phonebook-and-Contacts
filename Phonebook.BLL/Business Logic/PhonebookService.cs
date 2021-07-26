@@ -21,13 +21,14 @@ namespace Phonebook.BLL
         public async Task<bool> Add(PhonebookDTO phonebook)
         {
             model.Phonebook entry = _mapper.Map<model.Phonebook>(source: phonebook);
-            return await _dbService.Add(entry);
+            return await _dbService.AddPhonebook(entry);
         }
 
         public async Task<IEnumerable<PhonebookDTO>> GetAsync()
         {
-            IEnumerable<model.Phonebook> phonebooks = await _dbService.GetAsync();
-            return _mapper.Map<IEnumerable<PhonebookDTO>>(source: phonebooks);
+            IEnumerable<model.Phonebook> dbPhonebooks = await _dbService.GetPhonebooksAsync();
+            IEnumerable<PhonebookDTO> phonebooks = _mapper.Map<IEnumerable<PhonebookDTO>>(source: dbPhonebooks);
+            return phonebooks;
         }
 
         public async Task<IEnumerable<ContactInfoDTO>> GetEntriesAsync(int phonebookId)

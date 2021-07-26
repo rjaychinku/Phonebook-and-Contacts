@@ -9,19 +9,20 @@ namespace Phonebook.DAL.Models
         public string Name { get; set; }
         public string Number { get; set; }
 
-        private int _phonebookId = 1;
-        public int PhonebookId
-        {
+        //private int _phonebookId = 1;
+        //public int PhonebookId
+        //{
          
-            get => _phonebookId;
+        //    get => _phonebookId;
             
-            //only doing this for the sake of the assessment
-            set
-            {
-                value = 1;
-                _phonebookId = value;
-            }
-        }
+        //    //only doing this for the sake of the assessment
+        //    set
+        //    {
+        //        value = 1;
+        //        _phonebookId = value;
+        //    }
+        //}
+        public int PhonebookId { get; set; }
         public Phonebook Phonebook { get; set; }
     }
 }

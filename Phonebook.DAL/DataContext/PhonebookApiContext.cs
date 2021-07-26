@@ -23,7 +23,7 @@ namespace Phonebook.DAL.DataContext
             modelBuilder.Entity<models.Phonebook>().HasData(phonebook);
 
             modelBuilder.Entity<models.Phonebook>()
-                         .HasMany<models.Entry>(p => p.Entries)
+                         .HasMany(p => p.Entries)
                          .WithOne(e => e.Phonebook)
                          .HasForeignKey(e => e.PhonebookId);
         }
