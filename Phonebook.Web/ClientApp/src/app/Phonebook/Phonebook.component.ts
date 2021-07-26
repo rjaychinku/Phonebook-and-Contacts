@@ -14,8 +14,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class PhonebookComponent implements OnInit {
 
   DoneLoadingData: boolean = false;
-  contactInfo: ContactData = { name: '', number: null };
-  phonebookId: number = 1; //using a fixed one to mock an actual device?
+  private contactInfo: ContactData = { name: '', number: null, phonebookId: null };
   tableColumns: string[] = ['contactName', 'contactNumber'];
   entries = new MatTableDataSource<ContactData>();
   Phonebooks: Phonebook[] = [
@@ -26,6 +25,7 @@ export class PhonebookComponent implements OnInit {
     { phonebookId: 5, name: "Kaoma's clientelle" },
     { phonebookId: 6, name: "Make's clientelle" }
   ];
+  private selectedPhonebookId: number;
 
   constructor(public dialog: MatDialog, public phonebookService: PhonebookService) { }
 
@@ -60,7 +60,9 @@ export class PhonebookComponent implements OnInit {
   }
 
   openContactDialog(): void {
-    // link PhonebookId to this.contactInfo
+
+    this.contactInfo.phonebookId = this.selectedPhonebookId;
+
     const dialogRef = this.dialog.open(EntryFormDialogComponent, {
       width: '250px',
       data: this.contactInfo
@@ -73,25 +75,8 @@ export class PhonebookComponent implements OnInit {
         this.entries = new MatTableDataSource(this.entries.data);
       }
 
-      this.contactInfo = { name: '', number: null };
+      this.contactInfo = { name: '', number: null, phonebookId: null};
       this.phonebookService.entryFormModel.reset();
-    });
-  }
-
-  openPhonebookDialog(): void {
-    const dialogRef = this.dialog.open(EntryFormDialogComponent, {
-      width: '250px',
-      data: this.contactInfo
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      if (result != null && result != undefined) {
-        this.entries.data.push(result);
-        this.entries = new MatTableDataSource(this.entries.data);
-      }
-
-      this.phonebookService.phonebookFormModel.reset();
     });
   }
 
@@ -108,7 +93,7 @@ export class PhonebookComponent implements OnInit {
   }
 
   async setPhonebook(phonebook: Phonebook) {
-
+    this.selectedPhonebookId = phonebook.phonebookId;
     let entries = await this.getEntries(phonebook.phonebookId);
     this.entries = new MatTableDataSource(entries);
   }
@@ -158,7 +143,7 @@ export class EntryFormDialogComponent {
   private async addEntry(contactData: ContactData) {
     try {
       this.DisableAddBtn = true;
-      const response = await this.phonebookService.submit();
+      const response = await this.phonebookService.submit(contactData);
 
       if (response == true) {
         this.dialogRef.close(contactData);

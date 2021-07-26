@@ -38,8 +38,8 @@ export class PhonebookService {
     return (mobileNUmber.value.toString().length != 10) ? isInvalid : null;
   }
 
-  async submit() {
-    return await this.saveForm(this.entryFormModel.value);
+  async submit(contactData: ContactData) {
+    return await this.saveForm(contactData);
   }
 
   async savePhonebook(formData: {}) {
@@ -48,8 +48,8 @@ export class PhonebookService {
     }).toPromise();
   }
 
-  async saveForm(formData: {}) {
-    return await this.http.post(this.baseUrl + 'Phonebook/AddEntry', formData, {
+  async saveForm(contactData: ContactData) {
+    return await this.http.post(this.baseUrl + 'Phonebook/AddEntry', contactData, {
       headers: new HttpHeaders({ "Content-Type": "application/json" })
     }).toPromise();
   }

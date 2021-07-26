@@ -4,6 +4,6 @@
     {
         public string Name { get; set; }
         public string Number { get; set; }
-        public string PhonebookId { get; set; }
+        public int PhonebookId { get; set; }
     }
 }
