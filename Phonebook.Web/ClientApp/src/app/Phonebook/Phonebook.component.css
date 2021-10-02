@@ -36,6 +36,10 @@
   transform: scale(1.1);
 }
 
+  #tilesLeft:disabled{
+    background-color: lightgrey;
+  }
+
 .example-container {
   height: 400px;
   overflow: auto;

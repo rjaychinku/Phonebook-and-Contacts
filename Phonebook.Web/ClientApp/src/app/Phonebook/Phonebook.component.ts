@@ -94,9 +94,15 @@ export class PhonebookComponent implements OnInit {
   }
 
   async setPhonebook(phonebook: Phonebook) {
-    this.selectedPhonebookId = phonebook.phonebookId;
-    let entries = await this.getEntries(phonebook.phonebookId);
-    this.entries = new MatTableDataSource(entries);
+
+    if (phonebook === undefined) {
+      this.entries = new MatTableDataSource(null);
+    }
+    else {
+      this.selectedPhonebookId = phonebook.phonebookId;
+      let entries = await this.getEntries(phonebook.phonebookId);
+      this.entries = new MatTableDataSource(entries);
+    }
   }
 }
 
